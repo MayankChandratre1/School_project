@@ -27,7 +27,7 @@ Create a `.env` file in the root of the `Frontend` directory and add the followi
 ```
 BASE_URL=<your-backend-url>
 ```
-Replace `<your-backend-url>` with the URL where the backend server is running (e.g., `http://localhost:5000`).
+Replace `<your-backend-url>` with the URL where the backend server is running (e.g., `http://localhost:5000/api`).
 
 ### 4. Start the Development Server
 ```bash
