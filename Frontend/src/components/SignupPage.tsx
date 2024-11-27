@@ -10,8 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Link, useNavigate } from 'react-router-dom'
 import { signUp } from '@/api'
+import { useToast } from '@/hooks/use-toast'
 
 export default function SignupForm() {
+    const {toast} = useToast()
     const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
@@ -66,9 +68,22 @@ export default function SignupForm() {
     if (Object.values(errors).every(error => error === '')) {
       setLoading(true)
       console.log('Form submitted:', formData)
-      await signUp(formData)
+      const res = await signUp(formData)
+      console.log("Result",res);
+      
+      if(res.error){
+        toast({
+            title:"User not aprroved",
+            description:"Wait until you are approved!",
+            variant:"destructive"
+        })
+        setTimeout(()=>{
+            navigate("/")
+        },2000)
+      }else{
+          navigate('/dashboard')
+      }
       setLoading(false)
-      navigate('/dashboard')
     }
   }
 
@@ -160,9 +175,7 @@ export default function SignupForm() {
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="school">School</SelectItem>
+                  <SelectItem value="SchoolAdmin">School Administartion</SelectItem>
                 </SelectContent>
               </Select>
               {errors.role && (

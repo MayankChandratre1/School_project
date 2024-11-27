@@ -9,8 +9,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link, useNavigate } from 'react-router-dom'
 import Header from './Header'
 import { signIn } from '@/api'
+import { useToast } from '@/hooks/use-toast'
 
 export default function LoginForm() {
+    const {toast} = useToast()
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: '',
@@ -57,11 +59,22 @@ export default function LoginForm() {
     Object.keys(formData).forEach(key => validateField(key, formData[key as keyof typeof formData]))
     if (Object.values(errors).every(error => error === '')) {
       console.log('Form submitted:', formData)
-      // Here you would typically handle the login process
       setLoading(true)
-      await signIn(formData)
+     const res =  await signIn(formData)
+      if(res.error){
+        toast({
+            title:"User not aprroved",
+            description:"Wait until you are approved!",
+            variant:"destructive"
+        })
+        setTimeout(()=>{
+            navigate("/")
+        },2000)
+      }else{
+          navigate('/dashboard')
+      }
       setLoading(false)
-      navigate('/dashboard')
+      
     }
   }
 
@@ -133,9 +146,7 @@ export default function LoginForm() {
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="school">School</SelectItem>
+                  <SelectItem value="SchoolAdmin">School Administartion</SelectItem>
                 </SelectContent>
               </Select>
               {errors.role && (

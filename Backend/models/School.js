@@ -5,7 +5,7 @@ const SchoolSchema = new mongoose.Schema({
     logo : {type : String},
     teachers : [{type : mongoose.Schema.Types.ObjectId , ref : 'Teacher' }],
     students : [{type : mongoose.Schema.Types.ObjectId , ref : 'Student' }],
-    approved : {type : Boolean, default : false},
+    
     createdAt : {type : Date, default : Date.now}
 });
 

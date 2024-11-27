@@ -1,6 +1,7 @@
 import axios from "axios";
-const BASE_URL = process.env.API_URL;
 
+
+const BASE_URL= import.meta.env.BASE_URL
 
 export const signUp = async (data:{
     email: string,
@@ -10,9 +11,9 @@ export const signUp = async (data:{
 }) => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/signup`, data);
-        return response;
+        return response.data;
     } catch (error) {
-        return error;
+        return {error};
     }
 }
 
@@ -22,8 +23,8 @@ export const signIn = async (data:{
 }) => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/login`, data);
-        return response;
+        return response.data;
     } catch (error) {
-        return error;
+        return {error};
     }
 }

@@ -1,4 +1,6 @@
 
+import { Toaster } from "@/components/ui/toaster"
+
 
 
 export const metadata = {
@@ -14,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body >
+        <Toaster />
         {children}
       </body>
     </html>
