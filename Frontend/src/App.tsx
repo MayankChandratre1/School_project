@@ -1,7 +1,7 @@
 import RootLayout from "./layout"
 import LandingPage from "./Section/LandingPage"
 import SignupForm from "./components/SignupPage"
-import {  Router, Route, Routes } from "react-router-dom"
+import {   Route, Routes } from "react-router-dom"
 import LoginForm from "./components/SigninPage"
 import Dashboard from "./components/Dashboard"
 export default function App() {
