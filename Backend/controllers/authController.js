@@ -17,7 +17,7 @@ export const login = async (req, res) => {
         let user;
         switch (role) {
             case 'SystemAdmin':
-                user = await Admin.findOne({ email });
+                user = await Admin.findOne({ email  });
                 break;
             case 'School':
                 user = await School.findOne({ email });
@@ -34,8 +34,8 @@ export const login = async (req, res) => {
 
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ message: 'Invalid Credentials' });
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if (!isMatch) return res.status(401).json({ message: 'Invalid Credentials' });
 
         const token = generateToken(user._id, role);
         res.status(200).json({ token, role, userId: user._id });
@@ -49,21 +49,21 @@ export const signup = async (req, res) => {
     const { name, email, password, role } = req.body;
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 12);
+        // const hashedPassword = await bcrypt.hash(password, 12);
 
         let newUser;
         switch (role) {
             case 'SystemAdmin':
-                newUser = new Admin({ name, email, password: hashedPassword });
+                newUser = new Admin({ name, email, password});
                 break;
             case 'School':
-                newUser = new School({ name, email, password: hashedPassword });
+                newUser = new School({ name, email, password });
                 break;
             case 'Teacher':
-                newUser = new Teacher({ name, email, password: hashedPassword });
+                newUser = new Teacher({ name, email, password });
                 break;
             case 'Student':
-                newUser = new Student({ name, email, password: hashedPassword });
+                newUser = new Student({ name, email, password});
                 break;
             default:
                 return res.status(400).json({ message: 'Invalid Role' });
